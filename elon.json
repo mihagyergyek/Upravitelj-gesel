@@ -1,0 +1,32 @@
+{
+    "uporabnisko_ime": "elon",
+    "geslo": "\u0000\u0000\u0000\u0000\u0000\u0000",
+    "shramba": {
+        "gesla": [
+            {
+                "ime": "gmail",
+                "uporabnisko_ime": "elonmusk@gmail.com",
+                "geslo": "%\u0000\t\u0003\u001c",
+                "datum": "2022-01-22",
+                "kategorija": null,
+                "url": null
+            },
+            {
+                "ime": "amazon",
+                "uporabnisko_ime": "elonmusk",
+                "geslo": "%\u0000\t\u0003\u001c\u0004pV",
+                "datum": "2021-06-05",
+                "kategorija": null,
+                "url": null
+            }
+        ],
+        "kartice": [
+            {
+                "stevilka": "0000 0000 0000 0000",
+                "cvv": 123,
+                "datum": "2025-03-01",
+                "ime": "mastercard"
+            }
+        ]
+    }
+}
