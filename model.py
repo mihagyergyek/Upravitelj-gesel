@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 import json
-from datetime import date
+from datetime import date, timedelta
 from typing import List
 from itertools import cycle
+import urllib.request
 
 @dataclass
 class Geslo:
@@ -21,6 +22,16 @@ class Geslo:
         self.kategorija = kategorija
         self.url = url
 
+    def prestaro_geslo(self):
+        return date.today() - self.datum > timedelta(90)
+
+    def nevarno_geslo(self):
+        if len(self.geslo) < 9:
+            return True
+        for vrstica in  urllib.request.urlopen("https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/darkweb2017-top10000.txt"):
+            if self.geslo in str(vrstica):
+                return True
+
 @dataclass
 class Kartica:
     stevilka : str
@@ -33,6 +44,9 @@ class Kartica:
         self.cvv = cvv
         self.datum = datum
         self.ime = ime
+
+    def blizu_poteka(self):
+        return date.today() - self.datum < timedelta(90)
 
 @dataclass
 class Shramba:
@@ -95,6 +109,12 @@ class Uporabnik:
         self.geslo = geslo
         self.shramba = shramba
 
+    def novo_geslo(self, vnos):
+        self.geslo = vnos
+
+    def pravilno_geslo(self, vnos):
+        return self.geslo == vnos
+
     def v_slovar(self):
         return {
             "uporabnisko_ime": self.uporabnisko_ime,
@@ -121,13 +141,11 @@ class Uporabnik:
 
     @staticmethod
     def zasifriraj_geslo(objekt):
-        sifrirano = ''
-        for crka in objekt:
-            sifrirano += chr(ord(crka) ^ ord(crka))
+        sifrirano = ''.join(chr((ord(crka) + ord(znak)) % 256) for crka, znak in zip(objekt, objekt))
         return sifrirano
 
     def odsifriraj_geslo(self, vnos):
-        odsifrirano = ''.join(chr(ord(crka) ^ ord(znak)) for crka, znak in zip(self.geslo, cycle(vnos)))
+        odsifrirano = ''.join(chr((ord(crka) - ord(znak)) % 256) for crka, znak in zip(self.geslo, cycle(vnos)))
         self.geslo = odsifrirano
         return self
 
@@ -137,6 +155,11 @@ class Uporabnik:
             kljuc = self.geslo
             sifrirano = ''.join(chr(ord(str(crka)) ^ ord(str(znak))) for crka, znak in zip(objekt["geslo"], cycle(kljuc)))
             objekt["geslo"] = sifrirano
+        for objekt in slovar["kartice"]:
+            kljuc = self.geslo
+            sifrirano = ''.join(chr(ord(str(crka)) ^ ord(str(znak))) for crka, znak in zip(objekt["stevilka"], cycle(kljuc)))
+            objekt["stevilka"] = sifrirano
+            objekt["cvv"] += ord(kljuc[0])
         self.shramba = Shramba.iz_slovarja(slovar)
         return self
 
@@ -146,10 +169,15 @@ class Uporabnik:
             kljuc = vnos
             odsifrirano = ''.join(chr(ord(str(crka)) ^ ord(str(znak))) for crka, znak in zip(objekt["geslo"], cycle(kljuc)))
             objekt["geslo"] = odsifrirano
+        for objekt in slovar["kartice"]:
+            kljuc = vnos
+            odsifrirano = ''.join(chr(ord(str(crka)) ^ ord(str(znak))) for crka, znak in zip(objekt["stevilka"], cycle(kljuc)))
+            objekt["stevilka"] = odsifrirano
+            objekt["cvv"] -= ord(kljuc[0])
         self.shramba = Shramba.iz_slovarja(slovar)
         return self
 
-gmail = Geslo("gmail", "elonmusk@gmail.com", "geslo", date(2022, 1, 22))
+gmail = Geslo("gmail", "elonmusk@gmail.com", "qwertyuiop", date(2022, 1, 22))
 amazon = Geslo("amazon", "elonmusk", "geslo123", date(2021, 6, 5))
 mastercard = Kartica("0000 0000 0000 0000", 123, date(2025, 3, 1), "mastercard")
 shramba = Shramba(
