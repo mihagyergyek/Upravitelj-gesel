@@ -1,6 +1,6 @@
 {
     "uporabnisko_ime": "elon",
-    "geslo": "\u0000\u0000\u0000\u0000\u0000\u0000",
+    "geslo": "ÊôÞæj",
     "shramba": {
         "gesla": [
             {
@@ -22,8 +22,8 @@
         ],
         "kartice": [
             {
-                "stevilka": "0000 0000 0000 0000",
-                "cvv": 123,
+                "stevilka": "rUJ_S\u0005rUJOC\u0005rUZ_C\u0005r",
+                "cvv": 189,
                 "datum": "2025-03-01",
                 "ime": "mastercard"
             }
