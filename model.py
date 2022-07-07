@@ -4,6 +4,12 @@ from datetime import date, timedelta
 from typing import List
 from itertools import cycle
 import urllib.request
+import random
+
+VELIKE_CRKE = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+MALE_CRKE = [crka.lower() for crka in VELIKE_CRKE]
+STEVILKE = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+POSEBNI_ZNAKI = ["!", "@", "#", "$", "%", "^", "&", "*"]
 
 @dataclass
 class Geslo:
@@ -22,15 +28,23 @@ class Geslo:
         self.kategorija = kategorija
         self.url = url
 
+    def __eq__(self, other):
+        return self.geslo == other.geslo
+
     def prestaro_geslo(self):
         return date.today() - self.datum > timedelta(90)
 
     def nevarno_geslo(self):
         if len(self.geslo) < 9:
             return True
+        elif not any(crka in "0123456789" for crka in self.geslo):
+            return True
+        elif not any(crka.isupper() for crka in self.geslo):
+            return True
         for vrstica in  urllib.request.urlopen("https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/darkweb2017-top10000.txt"):
             if self.geslo in str(vrstica):
                 return True
+        return False
 
 @dataclass
 class Kartica:
@@ -46,7 +60,7 @@ class Kartica:
         self.ime = ime
 
     def blizu_poteka(self):
-        return date.today() - self.datum < timedelta(90)
+        return self.datum - date.today() < timedelta(90)
 
 @dataclass
 class Shramba:
@@ -177,8 +191,21 @@ class Uporabnik:
         self.shramba = Shramba.iz_slovarja(slovar)
         return self
 
+def generator_gesel(dolzina=14, velike_crke=True, stevilke=True, posebni_znaki=True):
+    generirano = ''
+    while len(generirano) < dolzina:
+        generirano += random.choice(MALE_CRKE)
+        if velike_crke:
+            generirano += random.choice(VELIKE_CRKE)
+        if stevilke:
+            generirano += random.choice(STEVILKE)
+        if posebni_znaki:
+            generirano += random.choice(POSEBNI_ZNAKI)
+    random.shuffle(list(generirano))
+    return str(generirano)[:dolzina - 1]
+
 gmail = Geslo("gmail", "elonmusk@gmail.com", "qwertyuiop", date(2022, 1, 22))
-amazon = Geslo("amazon", "elonmusk", "geslo123", date(2021, 6, 5))
+amazon = Geslo("amazon", "elonmusk", "7uDHy3LhfDAumw", date(2021, 6, 5))
 mastercard = Kartica("0000 0000 0000 0000", 123, date(2025, 3, 1), "mastercard")
 shramba = Shramba(
     [gmail, amazon],
