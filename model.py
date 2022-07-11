@@ -202,7 +202,7 @@ def generator_gesel(dolzina=14, velike_crke=True, stevilke=True, posebni_znaki=T
         if posebni_znaki:
             generirano += random.choice(POSEBNI_ZNAKI)
     random.shuffle(list(generirano))
-    return str(generirano)[:dolzina - 1]
+    return str(generirano)[:dolzina]
 
 gmail = Geslo("gmail", "elonmusk@gmail.com", "qwertyuiop", date(2022, 1, 22))
 amazon = Geslo("amazon", "elonmusk", "7uDHy3LhfDAumw", date(2021, 6, 5))

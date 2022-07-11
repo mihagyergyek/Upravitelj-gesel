@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Upravitelj gesel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="/">Upravitelj gesel</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" href="/gesla/">Gesla</a>
+          <a class="nav-item nav-link" href="/kartice/">Kartice</a>
+          <a class="nav-item nav-link" href="/generator/">Generator gesel</a>
+          <a class="nav-item nav-link" href="/varnost/">Varnost</a>
+        </div>
+        % if 'uporabnik' != None:
+          <form method="POST" action="/odjava/">
+            <button class="btn btn-outline-success my-2 my-sm-0 button-dark" value="odjava_post">
+              Odjavi se
+            </button>
+          </form>
+          % else:
+          <a class="nav-item">
+          <button class="btn btn-outline-success my-2 my-sm-0 button-dark" href="/registracija/">
+            <strong>Registriracija</strong>
+          </button>
+          <button class="btn btn-outline-secondary my-2 my-sm-0 button-dark" href="/prijava/">
+            Prijava
+          </button>
+          </a>
+          % end
+      </div>
+    </nav>
+    <section class="section">
+      {{!base}}
+    </section>
+  </body>
+</html>

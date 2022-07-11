@@ -1,0 +1,68 @@
+% rebase('base.html')
+<div class="container">
+    <div class="row align-items-start">
+      <div class="col">
+        <h1>Shranjena gesla</h1>
+        <table class="table">
+            %if gesla:
+            <thead>
+              <tr>
+                <th scope="col">Ime</th>
+                <th scope="col">Uporabniško ime</th>
+                <th scope="col">Geslo</th>
+                <th scope="col">URL</th>
+              </tr>
+            </thead>
+            <tbody>
+                %for objekt in gesla:
+                  <tr>
+                    <th scope="row">{{objekt.ime}}</th>
+                    <td>{{objekt.uporabnisko_ime}}</td>
+                    <td>{{objekt.geslo}}</td>
+                    <td>{{objekt.url}}</td>
+                  </tr>
+                %end
+            </tbody>
+            %else:
+                <p>Nimaš še shranjenih gesel. Kaj, ko bi kakšnega dodal?</p>
+            %end
+        </table>
+      </div>
+      <div class="col">
+        <h1>Dodaj geslo</h1>
+        <form action="" method="POST">
+            <div class="mb-3">
+                <label for="ime" class="form-label">Ime</label>
+                <input type="text" class="form-control" id="ime" name="ime">
+            </div>
+            <div class="mb-3">
+              <label for="uporabnisko-ime" class="form-label">Uporabniško ime</label>
+              <input type="text" class="form-control" id="uporabnisko-ime" name="uporabnisko_ime" aria-describedby="up-ime">
+              <div id="up-ime" class="form-text">Uporabniško ime za spletno stran.</div>
+            </div>
+            <div class="mb-3">
+              <label for="geslo" class="form-label">Geslo</label>
+              <input type="password" class="form-control" id="geslo" name="geslo" aria-describedby="pass">
+              <div id="pass" class="form-text">Nasvet: Varno geslo lahko pridobiš v generatorju.</div>
+            </div>
+            <div class="mb-3">
+                <label for="datum" class="form-label">Datum</label>
+                <input type="date" class="form-control" id="datum" name="datum" aria-describedby="dat">
+                <div id="dat" class="form-text">Datum zadnje menjave tega gesla. Lahko tudi današnji datum.</div>
+            </div>
+            <div class="mb-3">
+              <label for="kategorija" class="form-label">Kategorija</label>
+              <input type="text" class="form-control" id="kategorija" value="ostalo" name="kategorija">
+            </div>
+            <div class="mb-3">
+                <label for="url" class="form-label">URL</label>
+                <input type="url" class="form-control" id="url" name="url">
+            </div>
+            <button type="submit" class="btn btn-primary" value="dodaj_geslo">Dodaj</button>
+          </form>
+          %if napaka:
+            <p class="alert alert-danger">{{ napaka }}</p>
+          %end
+      </div>
+    </div>
+</div>  

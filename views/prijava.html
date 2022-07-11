@@ -1,0 +1,16 @@
+% rebase('base.html')
+<form method="POST">
+    <div class="mb-3">
+        <label for="uporabnisko-ime" class="form-label">Uporabniško ime</label>
+        <input type="text" class="form-control" id="uporabnisko-ime" name="uporabnisko_ime">
+      </div>
+      <div class="mb-3">
+        <label for="geslo" class="form-label">Geslo</label>
+        <input type="password" class="form-control" id="geslo" name="geslo">
+      </div>
+      %if napaka:
+        <p class="alert alert-danger">{{ napaka }}</p>
+      %end
+      <button type="submit" class="btn btn-primary">Prijava</button>
+</form>
+
