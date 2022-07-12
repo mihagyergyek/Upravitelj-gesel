@@ -28,9 +28,6 @@ class Geslo:
         self.kategorija = kategorija
         self.url = url
 
-    def __eq__(self, other):
-        return self.geslo == other.geslo
-
     def prestaro_geslo(self):
         return date.today() - self.datum > timedelta(90)
 
@@ -67,13 +64,19 @@ class Shramba:
     gesla : List[Geslo]
     kartice : List[Kartica]
 
-    def dodaj_geslo(self, ime, uporabnisko_ime, geslo, datum=date.today(), kategorija=None, url=None):
+    def dodaj_geslo(self, ime, uporabnisko_ime, geslo, datum=date.today(), kategorija="Ostalo", url=None):
         novo_geslo = Geslo(ime, uporabnisko_ime, geslo, datum, kategorija, url)
         self.gesla.append(novo_geslo)
 
     def dodaj_kartico(self, stevilka, cvv, datum, ime):
         nova_kartica = Kartica(stevilka, cvv, datum, ime)
         self.kartice.append(nova_kartica)
+
+    def kategorije(self):
+        seznam = set()
+        for objekt in self.gesla:
+            seznam.add(objekt.kategorija)
+        return list(seznam)
 
     def v_slovar(self):
         return {
@@ -111,6 +114,23 @@ class Shramba:
             gesla = gesla,
             kartice = kartice
         )
+
+    def enaka_gesla(self):
+        seznam = [objekt.geslo for objekt in shramba.gesla]
+        seznam_ponavljajocih = []
+        for geslo in seznam:
+            if seznam.count(geslo) > 1 and geslo not in seznam_ponavljajocih:
+                seznam_ponavljajocih.append(geslo)
+        return seznam_ponavljajocih
+
+    def prestara_gesla(self):
+        return [objekt for objekt in self.gesla if objekt.prestaro_geslo()]
+
+    def nevarna_gesla(self):
+        return [objekt for objekt in self.gesla if objekt.nevarno_geslo()]
+
+    def kartice_blizu_poteka(self):
+        return [objekt for objekt in self.kartice if objekt.blizu_poteka()]
 
 @dataclass
 class Uporabnik:

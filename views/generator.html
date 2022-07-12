@@ -1,0 +1,26 @@
+% rebase('base.html')
+<div class="container">
+    <h1>Generator gesel</h1>
+    <form method="POST">
+        <label for="dolzina" class="form-label">Dolžina gesla</label>
+        <input type="range" value="14" class="form-range" min="10" max="20" step="1" id="dolzina" name="dolzina">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="velike_crke" name="velike_crke" checked>
+          <label class="form-check-label" for="velike_crke">Geslo naj vsebuje velike črke</label>
+        </div>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="stevilke" name="stevilke" checked>
+          <label class="form-check-label" for="stevilke">Geslo naj vsebuje številke</label>
+        </div>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="posebni_znaki" name="posebni_znaki" checked>
+          <label class="form-check-label" for="posebni_znaki">Geslo naj vsebuje posebne znake</label>
+        </div>
+        <button type="submit" class="btn btn-primary" value="generator_post">Generiraj</button>
+    </form>
+    %if generirano_geslo:
+      <div class="container border rounded w-25 my-3 justify-content-center">
+        <p class="text-center">{{generirano_geslo}}</p>
+      </div>
+    %end
+</div>

@@ -8,7 +8,7 @@
                 "uporabnisko_ime": "elonmusk@gmail.com",
                 "geslo": "3\u0012\u001f\u001d\u0007L7\f\u0015\u001f",
                 "datum": "2022-01-22",
-                "kategorija": null,
+                "kategorija": "Email",
                 "url": null
             },
             {
@@ -16,7 +16,7 @@
                 "uporabnisko_ime": "elonmusk",
                 "geslo": "u\u0010>'\n\u0006\u000e\r\u001c+2@/\u0012",
                 "datum": "2021-06-05",
-                "kategorija": null,
+                "kategorija": "Ostalo",
                 "url": null
             }
         ],
@@ -26,6 +26,12 @@
                 "cvv": 189,
                 "datum": "2025-03-01",
                 "ime": "mastercard"
+            },
+            {
+                "stevilka": "sTK^S\u0004sTKOB\u0004sTZ^B\u0004s",
+                "cvv": 411,
+                "datum": "2023-03-01",
+                "ime": "Visa"
             }
         ]
     }
