@@ -224,6 +224,14 @@ def generator_gesel(dolzina=14, velike_crke=True, stevilke=True, posebni_znaki=T
     random.shuffle(list(generirano))
     return str(generirano)[:dolzina]
 
+def prave_oblike(stevilka):
+    if not(stevilka[4] == ' ' and stevilka[10] == ' ' and stevilka[14] == ' '):
+        return False
+    for znak in stevilka[:4] + stevilka[5:10] + stevilka[11:14] + stevilka[15:]:
+        if not znak.isdigit():
+            return False
+    return True
+
 gmail = Geslo("gmail", "elonmusk@gmail.com", "qwertyuiop", date(2022, 1, 22))
 amazon = Geslo("amazon", "elonmusk", "7uDHy3LhfDAumw", date(2021, 6, 5))
 mastercard = Kartica("0000 0000 0000 0000", 123, date(2025, 3, 1), "mastercard")

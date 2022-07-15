@@ -32,6 +32,12 @@
                 "cvv": 411,
                 "datum": "2023-03-01",
                 "ime": "Visa"
+            },
+            {
+                "stevilka": "pWH]S\u0007pWHOA\u0007pWZ]A\u0007p",
+                "cvv": 522,
+                "datum": "2022-08-01",
+                "ime": "Stara Visa"
             }
         ]
     }

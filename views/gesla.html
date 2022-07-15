@@ -1,7 +1,7 @@
 % rebase('base.html')
 <div class="container">
     <div class="row align-items-start">
-      <div class="col-7">
+      <div class="col-8">
         <h1>Shranjena gesla</h1>
         %if gesla:
           %for kategorija in kategorije:
@@ -13,6 +13,8 @@
                     <th scope="col">Uporabniško ime</th>
                     <th scope="col">Geslo</th>
                     <th scope="col">URL</th>
+                    <th scope="col">Novo geslo</th>
+                    <th scope="col"></th>
                     <th scope="col"></th>
                   </tr>
                 </thead>
@@ -25,9 +27,16 @@
                           <td>{{objekt.geslo}}</td>
                           <td>{{objekt.url}}</td>
                           <td>
+                            <form action="/zamenjaj-geslo/" method="POST">
+                                <input type="text" class="form-control" name="geslo-za-menjavo" required>
+                                <input type="hidden" name="objekt-za-menjavo" value="{{objekt.ime}}">
+                                <button type="submit" class="btn btn-secondary mt-2 btn-sm" value="zamenjaj_geslo">Zamenjaj geslo</button>
+                            </form>
+                          </td>
+                          <td>
                             <form action="/odstrani-geslo/" method="POST">
                                 <input type="hidden" name="geslo-za-izbris" value="{{objekt.ime}}">
-                                <button type="submit" class="btn btn-danger" value="odstrani_geslo">Odstrani</button>
+                                <button type="submit" class="btn btn-danger btn-sm" value="odstrani_geslo">Odstrani</button>
                             </form>
                           </td>
                         </tr>
@@ -40,21 +49,21 @@
         %end
         </table>
       </div>
-      <div class="col-5">
+      <div class="col-4">
         <h1>Dodaj geslo</h1>
         <form action="" method="POST">
             <div class="mb-3">
                 <label for="ime" class="form-label">Ime</label>
-                <input type="text" class="form-control" id="ime" name="ime">
+                <input type="text" class="form-control" id="ime" name="ime" required>
             </div>
             <div class="mb-3">
               <label for="uporabnisko-ime" class="form-label">Uporabniško ime</label>
-              <input type="text" class="form-control" id="uporabnisko-ime" name="uporabnisko_ime" aria-describedby="up-ime">
+              <input type="text" class="form-control" id="uporabnisko-ime" name="uporabnisko_ime" aria-describedby="up-ime" required>
               <div id="up-ime" class="form-text">Uporabniško ime za spletno stran.</div>
             </div>
             <div class="mb-3">
               <label for="geslo" class="form-label">Geslo</label>
-              <input type="password" class="form-control" id="geslo" name="geslo" aria-describedby="pass">
+              <input type="password" class="form-control" id="geslo" name="geslo" aria-describedby="pass" required>
               <div id="pass" class="form-text">Nasvet: Varno geslo lahko pridobiš v generatorju.</div>
             </div>
             <div class="mb-3">

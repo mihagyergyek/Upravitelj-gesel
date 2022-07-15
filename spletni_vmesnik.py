@@ -24,14 +24,35 @@ def shrani_trenutnega_uporabnika(uporabnik : model.Uporabnik):
     ime_datoteke = ime_uporabnikove_datoteke(uporabnisko_ime)
     uporabnik.v_datoteko(ime_datoteke)
 
+@bottle.get("/registracija/")
+def registracija():
+    return bottle.template("registracija.html", uporabnik=None, napaka=None)
+
+@bottle.post("/registracija/")
+def registracija_post():
+    uporabnisko_ime = bottle.request.forms.getunicode("uporabnisko_ime")
+    geslo = bottle.request.forms.getunicode("geslo")
+    if exists(ime_uporabnikove_datoteke(uporabnisko_ime)):
+        return bottle.template("registracija.html", uporabnik=None, napaka="To uporabniško ime je zasedeno.")
+    elif uporabnisko_ime == '' or geslo == '':
+        return bottle.template("registracija.html", uporabnik=None, napaka="Manjkajoči podatki.")
+    else:
+        uporabnik = model.Uporabnik(uporabnisko_ime, geslo, model.Shramba([], []))
+        shrani_trenutnega_uporabnika(uporabnik)
+        bottle.response.set_cookie("uporabnisko_ime", uporabnisko_ime, path="/", secret=SKRIVNOST)
+        bottle.response.set_cookie("geslo", geslo, path="/", secret=SKRIVNOST)
+        bottle.redirect("/")
+
 @bottle.get("/prijava/")
 def prijava_get():
-    return bottle.template("prijava.html", napaka=None)
+    return bottle.template("prijava.html", uporabnik=None, napaka=None)
 
 @bottle.post("/prijava/")
 def prijava_post():
     uporabnisko_ime = bottle.request.forms.getunicode("uporabnisko_ime")
     vpisano_geslo = bottle.request.forms.getunicode("geslo")
+    if vpisano_geslo == '':
+        return bottle.template("prijava.html", uporabnik=None, napaka="Manjkajoče geslo")
     ime_datoteke = ime_uporabnikove_datoteke(uporabnisko_ime)
     uporabnik = exists(ime_datoteke)
     if uporabnik:
@@ -40,8 +61,10 @@ def prijava_post():
             bottle.response.set_cookie("uporabnisko_ime", uporabnisko_ime, path="/", secret=SKRIVNOST)
             bottle.response.set_cookie("geslo", vpisano_geslo, path="/", secret=SKRIVNOST)
             bottle.redirect("/")
+        else:
+            return bottle.template("prijava.html", uporabnik=None, napaka="Napačno geslo")
     else:
-        return bottle.template("prijava.html", napaka="Napačno uporabniško ime ali geslo")
+        return bottle.template("prijava.html", uporabnik=None, napaka="Napačno uporabniško ime ali geslo")
 
 @bottle.post("/odjava/")
 def odjava_post():
@@ -57,7 +80,7 @@ def zacetna_stran():
 def upravljanje_gesel():
     kategorije = trenutni_uporabnik().shramba.kategorije()
     gesla = trenutni_uporabnik().shramba.gesla
-    return bottle.template("gesla.html", kategorije=kategorije, gesla=gesla, napaka=None)
+    return bottle.template("gesla.html", uporabnik=trenutni_uporabnik(), kategorije=kategorije, gesla=gesla, napaka=None)
 
 @bottle.post("/gesla/")
 def dodaj_geslo():
@@ -78,11 +101,11 @@ def dodaj_geslo():
     if not(ime and uporabnisko_ime and geslo):
         kategorije = trenutni_uporabnik().shramba.kategorije()
         gesla = trenutni_uporabnik().shramba.gesla
-        return bottle.template("gesla.html", kategorije=kategorije, gesla=gesla, napaka="Manjkajoči podatki")
+        return bottle.template("gesla.html", uporabnik=trenutni_uporabnik(), kategorije=kategorije, gesla=gesla, napaka="Manjkajoči podatki")
     else:
         shramba.dodaj_geslo(ime, uporabnisko_ime, geslo, datum, kategorija, url)
         shrani_trenutnega_uporabnika(uporabnik)
-        bottle.redirect("/")
+        bottle.redirect("/gesla/")
 
 @bottle.post("/odstrani-geslo/")
 def odstrani_geslo():
@@ -92,20 +115,34 @@ def odstrani_geslo():
     for objekt in shramba.gesla:
         if geslo_za_izbris == objekt.ime:
             shramba.gesla.remove(objekt)
-            print(uporabnik)
             shrani_trenutnega_uporabnika(uporabnik)
-            bottle.redirect("/")
+            bottle.redirect("/gesla/")
+
+@bottle.post("/zamenjaj-geslo/")
+def zamenjaj_geslo():
+    uporabnik = trenutni_uporabnik()
+    shramba = uporabnik.shramba
+    geslo_za_menjavo = bottle.request.forms.getunicode("geslo-za-menjavo")
+    objekt_za_menjavo = bottle.request.forms.getunicode("objekt-za-menjavo")
+    for objekt in shramba.gesla:
+        if objekt_za_menjavo == objekt.ime:
+            objekt.geslo = geslo_za_menjavo
+            shrani_trenutnega_uporabnika(uporabnik)
+            bottle.redirect("/gesla/")
 
 @bottle.get("/kartice/")
 def upravljanje_kartic():
     kartice = trenutni_uporabnik().shramba.kartice
-    return bottle.template("kartice.html", kartice=kartice, napaka=None)
+    return bottle.template("kartice.html", uporabnik=trenutni_uporabnik(), kartice=kartice, napaka=None)
 
 @bottle.post("/kartice/")
 def dodaj_kartico():
     uporabnik = trenutni_uporabnik()
     shramba = uporabnik.shramba
-    stevilka = bottle.request.forms.getunicode("stevilka")
+    if model.prave_oblike(bottle.request.forms.getunicode("stevilka")):
+        stevilka = bottle.request.forms.getunicode("stevilka")
+    else:
+        stevilka = None
     if not(len(bottle.request.forms.getunicode("cvv")) == 3):
         cvv = None
     else:
@@ -117,7 +154,7 @@ def dodaj_kartico():
     ime = bottle.request.forms.getunicode("ime")
     if not(stevilka and cvv and datum and ime):
         kartice = trenutni_uporabnik().shramba.kartice
-        return bottle.template("kartice.html", kartice=kartice, napaka="Manjkajoči ali nepravilni podatki")
+        return bottle.template("kartice.html", uporabnik=trenutni_uporabnik(), kartice=kartice, napaka="Manjkajoči ali nepravilni podatki")
     else:
         shramba.dodaj_kartico(stevilka, cvv, datum, ime)
         shrani_trenutnega_uporabnika(uporabnik)
@@ -131,13 +168,13 @@ def odstrani_kartico():
     for objekt in shramba.kartice:
         if kartica == objekt.stevilka:
             shramba.kartice.remove(objekt)
-            print(uporabnik)
             shrani_trenutnega_uporabnika(uporabnik)
             bottle.redirect("/kartice/")
 
 @bottle.get("/generator/")
 def generator():
-    return bottle.template("generator.html", generirano_geslo=None)
+    uporabnik = trenutni_uporabnik()
+    return bottle.template("generator.html", uporabnik=uporabnik, generirano_geslo=None)
 
 @bottle.post("/generator/")
 def generator_post():
@@ -146,12 +183,11 @@ def generator_post():
     stevilke = bottle.request.forms.get("stevilke")
     posebni_znaki = bottle.request.forms.get("posebni_znaki")
     generirano_geslo = model.generator_gesel(dolzina, velike_crke, stevilke, posebni_znaki)
-    print(generirano_geslo)
-    return bottle.template("generator.html", generirano_geslo=generirano_geslo)
+    return bottle.template("generator.html", uporabnik=trenutni_uporabnik(), generirano_geslo=generirano_geslo)
 
 @bottle.get("/varnost/")
 def varnost():
     shramba = trenutni_uporabnik().shramba
-    return bottle.template("varnost.html", shramba=shramba)
+    return bottle.template("varnost.html", uporabnik=trenutni_uporabnik(), shramba=shramba)
 
 bottle.run(reloader=True, debug=True)

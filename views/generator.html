@@ -3,7 +3,8 @@
     <h1>Generator gesel</h1>
     <form method="POST">
         <label for="dolzina" class="form-label">Dolžina gesla</label>
-        <input type="range" value="14" class="form-range" min="10" max="20" step="1" id="dolzina" name="dolzina">
+        <input type="range" value="14" class="form-range" min="10" max="20" step="1" id="dolzina" name="dolzina" oninput="this.nextElementSibling.value = this.value">
+        Dolžina: <output>14</output>
         <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="velike_crke" name="velike_crke" checked>
           <label class="form-check-label" for="velike_crke">Geslo naj vsebuje velike črke</label>
