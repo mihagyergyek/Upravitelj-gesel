@@ -139,6 +139,7 @@ def upravljanje_kartic():
 def dodaj_kartico():
     uporabnik = trenutni_uporabnik()
     shramba = uporabnik.shramba
+    lastnik = bottle.request.forms.getunicode("lastnik")
     if model.prave_oblike(bottle.request.forms.getunicode("stevilka")):
         stevilka = bottle.request.forms.getunicode("stevilka")
     else:
@@ -152,7 +153,7 @@ def dodaj_kartico():
     except:
         datum = None
     ime = bottle.request.forms.getunicode("ime")
-    if not(stevilka and cvv and datum and ime):
+    if not(lastnik and stevilka and cvv and datum and ime):
         kartice = trenutni_uporabnik().shramba.kartice
         return bottle.template("kartice.html", uporabnik=trenutni_uporabnik(), kartice=kartice, napaka="Manjkajoči ali nepravilni podatki")
     else:

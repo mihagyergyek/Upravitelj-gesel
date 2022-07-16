@@ -45,12 +45,14 @@ class Geslo:
 
 @dataclass
 class Kartica:
+    lastnik : str
     stevilka : str
     cvv : int
     datum : date
     ime: str
 
-    def __init__(self, stevilka, cvv, datum, ime):
+    def __init__(self, lastnik, stevilka, cvv, datum, ime):
+        self.lastnik = lastnik
         self.stevilka = stevilka
         self.cvv = cvv
         self.datum = datum
@@ -68,8 +70,8 @@ class Shramba:
         novo_geslo = Geslo(ime, uporabnisko_ime, geslo, datum, kategorija, url)
         self.gesla.append(novo_geslo)
 
-    def dodaj_kartico(self, stevilka, cvv, datum, ime):
-        nova_kartica = Kartica(stevilka, cvv, datum, ime)
+    def dodaj_kartico(self, lastnik, stevilka, cvv, datum, ime):
+        nova_kartica = Kartica(lastnik, stevilka, cvv, datum, ime)
         self.kartice.append(nova_kartica)
 
     def kategorije(self):
@@ -91,7 +93,8 @@ class Shramba:
                 for objekt in self.gesla
             ],
             "kartice": [
-                    {"stevilka": kartica.stevilka,
+                    {"lastnik": kartica.lastnik,
+                    "stevilka": kartica.stevilka,
                     "cvv": kartica.cvv,
                     "datum": kartica.datum.isoformat(),
                     "ime": kartica.ime
@@ -107,7 +110,7 @@ class Shramba:
             for g in slovar["gesla"]
         ]
         kartice = [
-            Kartica(k["stevilka"], k["cvv"], date.fromisoformat(k["datum"]), k["ime"])
+            Kartica(k["lastnik"], k["stevilka"], k["cvv"], date.fromisoformat(k["datum"]), k["ime"])
             for k in slovar["kartice"]
         ]
         return cls(
@@ -116,7 +119,7 @@ class Shramba:
         )
 
     def enaka_gesla(self):
-        seznam = [objekt.geslo for objekt in shramba.gesla]
+        seznam = [objekt.geslo for objekt in self.gesla]
         seznam_ponavljajocih = []
         for geslo in seznam:
             if seznam.count(geslo) > 1 and geslo not in seznam_ponavljajocih:
@@ -221,8 +224,10 @@ def generator_gesel(dolzina=14, velike_crke=True, stevilke=True, posebni_znaki=T
             generirano += random.choice(STEVILKE)
         if posebni_znaki:
             generirano += random.choice(POSEBNI_ZNAKI)
-    random.shuffle(list(generirano))
-    return str(generirano)[:dolzina]
+    seznam = [crka for crka in generirano]
+    random.shuffle(seznam)
+    generirano = ''.join(crka for crka in seznam)
+    return generirano[:dolzina]
 
 def prave_oblike(stevilka):
     if not(stevilka[4] == ' ' and stevilka[10] == ' ' and stevilka[14] == ' '):
@@ -231,12 +236,3 @@ def prave_oblike(stevilka):
         if not znak.isdigit():
             return False
     return True
-
-gmail = Geslo("gmail", "elonmusk@gmail.com", "qwertyuiop", date(2022, 1, 22))
-amazon = Geslo("amazon", "elonmusk", "7uDHy3LhfDAumw", date(2021, 6, 5))
-mastercard = Kartica("0000 0000 0000 0000", 123, date(2025, 3, 1), "mastercard")
-shramba = Shramba(
-    [gmail, amazon],
-    [mastercard]
-)
-elon_musk = Uporabnik("elon", "Bezos5", shramba)

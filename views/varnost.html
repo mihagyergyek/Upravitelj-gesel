@@ -1,10 +1,13 @@
 % rebase('base.html')
 <div class="container">
+    %if shramba.enaka_gesla() == [] and shramba.prestara_gesla() == [] and shramba.nevarna_gesla() == [] and shramba.kartice_blizu_poteka() == []:
+    <p style="font-size: 2.5rem" class="text-center">Čestitke, tvoja shramba je brez varnostnih pomanjkljivosti!</p>
+    %end
     %if shramba.enaka_gesla() != []:
     <h1>Ponovljena gesla</h1>
     <p>Naslednja gesla si uporabil/a večkrat. Dobro bi jih bilo zamenjati.</p>
         %for geslo in shramba.enaka_gesla():
-            <table class="table">
+            <table class="table table-striped table-dark">
                 <h2>{{geslo}}</h2>
                 <thead>
                   <tr>
@@ -15,7 +18,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                    %for objekt in gesla:
+                    %for objekt in shramba.gesla:
                       %if objekt.geslo == geslo:
                         <tr>
                           <th scope="row">{{objekt.ime}}</th>
@@ -32,7 +35,7 @@
     %if shramba.prestara_gesla() != []:
     <h1>Stara gesla</h1>
     <p>Naslednjih gesel že dolgo nisi zamejal/a. To bi bilo dobro storiti.</p>
-        <table class="table">
+        <table class="table table-striped table-dark">
             <thead>
               <tr>
                 <th scope="col">Ime</th>
@@ -56,7 +59,7 @@
     %if shramba.nevarna_gesla() != []:
     <h1>Nevarna gesla</h1>
     <p>Naslednja gesla so šibka in jih je potrebno zamenjati.</p>
-        <table class="table">
+        <table class="table table-striped table-dark">
             <thead>
               <tr>
                 <th scope="col">Ime</th>
@@ -80,7 +83,7 @@
     %if shramba.kartice_blizu_poteka() != []:
     <h1>Kartice blizu poteka</h1>
     <p>Naslednje kartice bodo kmalu potekle.</p>
-        <table class="table">
+        <table class="table table-striped table-dark">
             <thead>
               <tr>
                 <th scope="col">Ime</th>

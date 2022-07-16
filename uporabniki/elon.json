@@ -9,7 +9,7 @@
                 "geslo": "3\u0012\u001f\u001d\u0007L7\f\u0015\u001f",
                 "datum": "2022-01-22",
                 "kategorija": "Email",
-                "url": null
+                "url": "gmail.com"
             },
             {
                 "ime": "amazon",
@@ -17,23 +17,34 @@
                 "geslo": "u\u0010>'\n\u0006\u000e\r\u001c+2@/\u0012",
                 "datum": "2021-06-05",
                 "kategorija": "Ostalo",
-                "url": null
+                "url": "amazon.com"
+            },
+            {
+                "ime": "Twitter",
+                "uporabnisko_ime": "elon_musk",
+                "geslo": "3\u0012\u001f\u001d\u0007L7\f\u0015\u001f",
+                "datum": "2022-07-15",
+                "kategorija": "Ostalo",
+                "url": "twitter.com"
             }
         ],
         "kartice": [
             {
+                "lastnik": "Elon Musk",
                 "stevilka": "rUJ_S\u0005rUJOC\u0005rUZ_C\u0005r",
                 "cvv": 189,
                 "datum": "2025-03-01",
                 "ime": "mastercard"
             },
             {
+                "lastnik": "Elon Musk",
                 "stevilka": "sTK^S\u0004sTKOB\u0004sTZ^B\u0004s",
                 "cvv": 411,
                 "datum": "2023-03-01",
                 "ime": "Visa"
             },
             {
+                "lastnik": "Elon Musk",
                 "stevilka": "pWH]S\u0007pWHOA\u0007pWZ]A\u0007p",
                 "cvv": 522,
                 "datum": "2022-08-01",

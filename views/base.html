@@ -8,8 +8,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/8c786dc548.js" crossorigin="anonymous"></script>
   </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3">
+  <body class="bg-dark bg-lighten-xs text-white">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3 border-bottom border-secondary">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">Upravitelj gesel</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,10 +18,18 @@
         <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-item nav-link" href="/gesla/">Gesla</a>
+              <a class="nav-item nav-link" href="/gesla/">Gesla
+                <span class="icon">
+                  <i class="fa-solid fa-asterisk" style="color:rgba(255,255,255,.55)"></i>
+                </span>
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-item nav-link" href="/kartice/">Kartice</a>
+              <a class="nav-item nav-link" href="/kartice/">Kartice
+                <span class="icon">
+                  <i class="fa-solid fa-credit-card" style="color:rgba(255,255,255,.55)"></i>
+                </span>
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-item nav-link" href="/generator/">Generator gesel
@@ -31,22 +39,32 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-item nav-link" href="/varnost/">Varnost</a>
+              <a class="nav-item nav-link" href="/varnost/">Varnost
+                <span class="icon">
+                  <i class="fa-solid fa-lock" style="color:rgba(255,255,255,.55)"></i>
+                </span>
+              </a>
             </li>
           </ul>
           % if uporabnik != None:
             <form method="POST" action="/odjava/">
               <button class="btn btn-outline-success my-2 my-sm-0 button-dark" value="odjava_post">
                 Odjavi se
+                <span class="icon">
+                  <i class="fa-solid fa-right-from-bracket" style="color:#198754"></i>
+                </span>
               </button>
             </form>
             % else:
               <div class="navbar-nav">
-                <a class="btn btn-outline-success my-2 my-sm-0 button-dark" href="/registracija/">
+                <a class="btn btn-outline-success mx-2 my-2 my-sm-0 button-dark" href="/registracija/">
                   <strong>Registriracija</strong>
                 </a>
                 <a class="btn btn-outline-secondary my-2 my-sm-0 button-dark" href="/prijava/">
                   Prijava
+                  <span class="icon">
+                    <i class="fa-solid fa-right-to-bracket" style="color:rgba(255,255,255,.55)"></i>
+                  </span>
                 </a>
               </div>
             % end

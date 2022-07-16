@@ -3,11 +3,12 @@
     <div class="row align-items-start">
       <div class="col-7">
         <h1>Shranjene kartice</h1>
-        <table class="table">
+        <table class="table table-striped table-dark">
             %if kartice:
                 <thead>
                   <tr>
                     <th scope="col">Ime</th>
+                    <th scope="col">Lastnik</th>
                     <th scope="col">Številka</th>
                     <th scope="col">CVV</th>
                     <th scope="col">Datum</th>
@@ -18,6 +19,7 @@
                     %for objekt in kartice:
                         <tr>
                           <th scope="row">{{objekt.ime}}</th>
+                          <td>{{objekt.lastnik}}</td>
                           <td>{{objekt.stevilka}}</td>
                           <td>{{objekt.cvv}}</td>
                           <td>{{objekt.datum.isoformat()[:7]}}</td>
@@ -41,6 +43,10 @@
             <div class="mb-3">
                 <label for="ime" class="form-label">Ime</label>
                 <input type="text" class="form-control" id="ime" name="ime" required>
+            </div>
+            <div class="mb-3">
+                <label for="lastnik" class="form-label">Lastnik</label>
+                <input type="text" class="form-control" id="lastnik" name="lastnik" required>
             </div>
             <div class="mb-3">
               <label for="stevilka" class="form-label">Številka kartice</label>
