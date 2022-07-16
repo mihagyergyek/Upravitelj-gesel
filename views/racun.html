@@ -1,0 +1,28 @@
+% rebase('base.html')
+<div class="container">
+    <p style="font-size: 2.5rem">Pozdravljen/a, {{uporabnik.uporabnisko_ime}}!</p>
+    <h1>Menjava gesla</h1>
+    <form action="/zamenjaj-uporabnikovo-geslo/" method="POST">
+        <div class="mb-3">
+            <label for="staro-geslo" class="form-label">Staro geslo</label>
+            <input type="text" class="form-control" id="staro-geslo" name="staro-geslo">
+          </div>
+          <div class="mb-3">
+            <label for="novo-geslo" class="form-label">Novo geslo</label>
+            <input type="text" class="form-control" id="novo-geslo" name="novo-geslo">
+          </div>
+          <button type="submit" class="btn btn-primary mb-3" value="zamenjaj_uporabnikovo_geslo">Zamenjaj geslo</button>
+        </form>
+        <h1>Izbris računa</h1>
+        <form action="/izbrisi-racun/" method="POST">
+            <div class="mb-3">
+                <label for="geslo" class="form-label">Geslo</label>
+                <input type="text" class="form-control" id="geslo" name="geslo">
+            </div>
+            <input type="hidden" name="ime-racuna" value="{{uporabnik.uporabnisko_ime}}">
+            <button type="submit" class="btn btn-danger mb-3" value="izbrisi_racun">Izbriši račun</button>
+        </form>
+    %if napaka:
+      <p class="alert alert-danger mb-3">{{ napaka }}</p>
+    %end
+</div>

@@ -1,5 +1,6 @@
 import bottle, model
 from os.path import exists
+import os
 from datetime import date
 
 with open("skrivnost.txt") as f:
@@ -190,5 +191,34 @@ def generator_post():
 def varnost():
     shramba = trenutni_uporabnik().shramba
     return bottle.template("varnost.html", uporabnik=trenutni_uporabnik(), shramba=shramba)
+
+@bottle.get("/racun/")
+def racun():
+    return bottle.template("racun.html", uporabnik=trenutni_uporabnik(), napaka=None)
+
+@bottle.post("/zamenjaj-uporabnikovo-geslo/")
+def zamenjaj_uporabnikovo_geslo():
+    uporabnik = trenutni_uporabnik()
+    staro_geslo = bottle.request.forms.getunicode("staro-geslo")
+    novo_geslo = bottle.request.forms.getunicode("novo-geslo")
+    print(staro_geslo, uporabnik.geslo)
+    if staro_geslo == uporabnik.geslo:
+        uporabnik.geslo = novo_geslo
+        bottle.response.set_cookie("geslo", novo_geslo, path="/", secret=SKRIVNOST)
+        shrani_trenutnega_uporabnika(uporabnik)
+        bottle.redirect("/racun/")
+    return bottle.template("racun.html", uporabnik=uporabnik, napaka="Napačno vnešeno staro geslo")
+
+@bottle.post("/izbrisi-racun/")
+def izbrisi_racun():
+    uporabnik = trenutni_uporabnik()
+    geslo = bottle.request.forms.getunicode("geslo")
+    ime_racuna = bottle.request.forms.getunicode("ime-racuna")
+    if geslo == uporabnik.geslo:
+        os.remove(ime_uporabnikove_datoteke(ime_racuna))
+        bottle.response.delete_cookie("uporabnisko_ime", path="/")
+        bottle.response.delete_cookie("geslo", path="/")
+        bottle.redirect("/")
+    return bottle.template("racun.html", uporabnik=uporabnik, napaka="Napačno vnešeno geslo")
 
 bottle.run(reloader=True, debug=True)
