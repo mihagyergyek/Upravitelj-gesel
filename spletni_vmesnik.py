@@ -128,6 +128,7 @@ def zamenjaj_geslo():
     for objekt in shramba.gesla:
         if objekt_za_menjavo == objekt.ime:
             objekt.geslo = geslo_za_menjavo
+            objekt.datum = date.today()
             shrani_trenutnega_uporabnika(uporabnik)
             bottle.redirect("/gesla/")
 
@@ -158,7 +159,7 @@ def dodaj_kartico():
         kartice = trenutni_uporabnik().shramba.kartice
         return bottle.template("kartice.html", uporabnik=trenutni_uporabnik(), kartice=kartice, napaka="Manjkajoči ali nepravilni podatki")
     else:
-        shramba.dodaj_kartico(stevilka, cvv, datum, ime)
+        shramba.dodaj_kartico(lastnik, stevilka, cvv, datum, ime)
         shrani_trenutnega_uporabnika(uporabnik)
         bottle.redirect("/kartice/")
 

@@ -230,9 +230,9 @@ def generator_gesel(dolzina=14, velike_crke=True, stevilke=True, posebni_znaki=T
     return generirano[:dolzina]
 
 def prave_oblike(stevilka):
-    if not(stevilka[4] == ' ' and stevilka[10] == ' ' and stevilka[14] == ' '):
+    if not(stevilka[4] == ' ' and stevilka[9] == ' ' and stevilka[14] == ' '):
         return False
-    for znak in stevilka[:4] + stevilka[5:10] + stevilka[11:14] + stevilka[15:]:
+    for znak in stevilka[:4] + stevilka[5:9] + stevilka[10:14] + stevilka[15:]:
         if not znak.isdigit():
             return False
     return True
