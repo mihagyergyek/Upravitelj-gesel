@@ -1,19 +1,38 @@
 % rebase('base.html')
 <div class="container">
-    <div class="row align-items-start mt-3">        
-        <form method="POST">
-            <div class="mb-3">
-                <label for="uporabnisko-ime" class="form-label">Uporabniško ime</label>
-                <input type="text" class="form-control" id="uporabnisko-ime" name="uporabnisko_ime">
-              </div>
-              <div class="mb-3">
-                <label for="geslo" class="form-label">Geslo</label>
-                <input type="password" class="form-control" id="geslo" name="geslo">
-              </div>
-              %if napaka:
-                <p class="alert alert-danger mb-3">{{ napaka }}</p>
-              %end
-              <button type="submit" class="btn btn-primary">Registracija</button>
-        </form>
+    <div class="row align-items-start my-3">        
+      <form method="POST">
+        <div class="mb-3">
+          <label for="uporabnisko-ime" class="form-label">Uporabniško ime</label>
+          <input type="text" class="form-control" id="uporabnisko-ime" name="uporabnisko_ime">
+        </div>
+        <div class="mb-3">
+          <label for="geslo" class="form-label">Geslo</label>
+          <input type="password" class="form-control" id="geslo" name="geslo">
+        </div>
+        %if napaka:
+          <p class="alert alert-danger mb-3">{{ napaka }}</p>
+        %end
+        <button type="submit" class="btn btn-primary">Registracija</button>
+      </form>
+    </div>
+    <div class="row align-items-start">
+      <h1>Uporaba Upravitelja gesel</h1>
+      <h2>Gesla</h2>
+      <img src="/img/gesla.png" class="img-fluid border">
+      <p>V zavihku Gesla so vidna vsa tvoja gesla. Razdeljena so v kategorije, ki jih določiš pri dodajanju posameznega gesla.
+        Omogočeno je tudi spreminjanje posameznih gesel in njihovo odstranjevanje. Gesla dodajaš na desni strani, kjer vneseš potrebne podatke.</p>
+      <h2>Kartice</h2>
+      <img src="/img/kartice.png" class="img-fluid border">
+      <p>Na tej strani so shranjene tvoje bančne kartice. Tako kot gesla jih vse vidiš na levi strani, kjer jih tudi lahko izbrišeš, na desni pa dodajaš nove.</p>
+      <h2>Generator gesel</h2>
+      <img src="/img/generator.png" class="img-fluid border">
+      <p>Generator gesel ti pomaga ustvarjati močna gesla za tvoje spletne strani. V generatorju enostavno določiš željeno dolžino in vsebovanje posameznih znakov, generator pa nato ustvari varno geslo.</p>
+      <h2>Varnost</h2>
+      <img src="/img/varnost.png" class="img-fluid border">
+      <p>Ta stran omogoča hiter nadzor nad tvojo spletno varnostjo. Aplikacija te bo opozorila na podvojena, šibka in stara gesla ter kmalu potekle bančne kartice.</p>
+      <h2>Račun</h2>
+      <img src="/img/racun.png" class="img-fluid border">
+      <p>Tu poteka nadzor nad tvojim računom. Zamenjaš lahko geslo ali izbrišeš celoten račun.</p>
     </div>
 </div>

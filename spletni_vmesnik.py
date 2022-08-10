@@ -35,7 +35,7 @@ def registracija_post():
     geslo = bottle.request.forms.getunicode("geslo")
     if exists(ime_uporabnikove_datoteke(uporabnisko_ime)):
         return bottle.template("registracija.html", uporabnik=None, napaka="To uporabniško ime je zasedeno.")
-    elif uporabnisko_ime == '' or geslo == '':
+    elif uporabnisko_ime == '' or geslo == '' or ' ' in uporabnisko_ime or ' ' in geslo:
         return bottle.template("registracija.html", uporabnik=None, napaka="Manjkajoči podatki.")
     else:
         uporabnik = model.Uporabnik(uporabnisko_ime, geslo, model.Shramba([], []))
@@ -201,7 +201,6 @@ def zamenjaj_uporabnikovo_geslo():
     uporabnik = trenutni_uporabnik()
     staro_geslo = bottle.request.forms.getunicode("staro-geslo")
     novo_geslo = bottle.request.forms.getunicode("novo-geslo")
-    print(staro_geslo, uporabnik.geslo)
     if staro_geslo == uporabnik.geslo:
         uporabnik.geslo = novo_geslo
         bottle.response.set_cookie("geslo", novo_geslo, path="/", secret=SKRIVNOST)
@@ -220,5 +219,9 @@ def izbrisi_racun():
         bottle.response.delete_cookie("geslo", path="/")
         bottle.redirect("/")
     return bottle.template("racun.html", uporabnik=uporabnik, napaka="Napačno vnešeno geslo")
+
+@bottle.get("/img/<picture>")
+def slika(picture):
+    return bottle.static_file(picture, root="img")
 
 bottle.run(reloader=True, debug=True)
