@@ -1,4 +1,5 @@
-import bottle, model
+import bottle
+import model
 from os.path import exists
 import os
 from datetime import date

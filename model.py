@@ -38,7 +38,7 @@ class Geslo:
             return True
         elif not any(crka.isupper() for crka in self.geslo):
             return True
-        for vrstica in  urllib.request.urlopen("https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/darkweb2017-top10000.txt"):
+        for vrstica in urllib.request.urlopen("https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/darkweb2017-top10000.txt"):
             if self.geslo in str(vrstica):
                 return True
         return False
