@@ -38,7 +38,9 @@ class Geslo:
             return True
         elif not any(crka.isupper() for crka in self.geslo):
             return True
-        for vrstica in urllib.request.urlopen("https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/darkweb2017-top10000.txt"):
+        for vrstica in urllib.request.urlopen(
+            "https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/Common-Credentials/10-million-password-list-top-10000.txt"
+            ):
             if self.geslo in str(vrstica):
                 return True
         return False
@@ -106,11 +108,17 @@ class Shramba:
     @classmethod
     def iz_slovarja(cls, slovar):
         gesla = [
-            Geslo(g["ime"], g["uporabnisko_ime"], g["geslo"], date.fromisoformat(g["datum"]), g["kategorija"], g["url"])
+            Geslo(
+                g["ime"], g["uporabnisko_ime"], g["geslo"],
+                date.fromisoformat(g["datum"]), g["kategorija"], g["url"]
+                )
             for g in slovar["gesla"]
         ]
         kartice = [
-            Kartica(k["lastnik"], k["stevilka"], k["cvv"], date.fromisoformat(k["datum"]), k["ime"])
+            Kartica(
+                k["lastnik"], k["stevilka"], k["cvv"],
+                date.fromisoformat(k["datum"]), k["ime"]
+                )
             for k in slovar["kartice"]
         ]
         return cls(
@@ -178,23 +186,34 @@ class Uporabnik:
 
     @staticmethod
     def zasifriraj_geslo(objekt):
-        sifrirano = ''.join(chr((ord(crka) + ord(znak)) % 256) for crka, znak in zip(objekt, objekt))
+        sifrirano = ''.join(chr((ord(crka) + ord(znak)) % 256) 
+            for crka, znak in zip(objekt, objekt))
         return sifrirano
 
     def odsifriraj_geslo(self, vnos):
-        odsifrirano = ''.join(chr((ord(crka) - ord(znak)) % 256) for crka, znak in zip(self.geslo, cycle(vnos)))
+        odsifrirano = ''.join(chr((ord(crka) - ord(znak)) % 256) 
+            for crka, znak in zip(self.geslo, cycle(vnos)))
         self.geslo = odsifrirano
         return self
 
+    @staticmethod
+    def xor_geslo(objekt, kljuc):
+        return ''.join(chr(ord(str(crka)) ^ ord(str(znak)))
+            for crka, znak in zip(objekt["geslo"], cycle(kljuc)))
+
+    @staticmethod
+    def xor_kartica(objekt, kljuc):
+        return ''.join(chr(ord(str(crka)) ^ ord(str(znak))) 
+            for crka, znak in zip(objekt["stevilka"], cycle(kljuc)))
+
     def zasifriraj_shrambo(self):
         slovar = self.shramba.v_slovar()
+        kljuc = self.geslo
         for objekt in slovar["gesla"]:
-            kljuc = self.geslo
-            sifrirano = ''.join(chr(ord(str(crka)) ^ ord(str(znak))) for crka, znak in zip(objekt["geslo"], cycle(kljuc)))
+            sifrirano = self.xor_geslo(objekt, kljuc)
             objekt["geslo"] = sifrirano
         for objekt in slovar["kartice"]:
-            kljuc = self.geslo
-            sifrirano = ''.join(chr(ord(str(crka)) ^ ord(str(znak))) for crka, znak in zip(objekt["stevilka"], cycle(kljuc)))
+            sifrirano = self.xor_kartica(objekt, kljuc)
             objekt["stevilka"] = sifrirano
             objekt["cvv"] += ord(kljuc[0])
         self.shramba = Shramba.iz_slovarja(slovar)
@@ -202,13 +221,12 @@ class Uporabnik:
 
     def odsifriraj_shrambo(self, vnos):
         slovar = self.shramba.v_slovar()
+        kljuc = vnos
         for objekt in slovar["gesla"]:
-            kljuc = vnos
-            odsifrirano = ''.join(chr(ord(str(crka)) ^ ord(str(znak))) for crka, znak in zip(objekt["geslo"], cycle(kljuc)))
+            odsifrirano = self.xor_geslo(objekt, kljuc)
             objekt["geslo"] = odsifrirano
         for objekt in slovar["kartice"]:
-            kljuc = vnos
-            odsifrirano = ''.join(chr(ord(str(crka)) ^ ord(str(znak))) for crka, znak in zip(objekt["stevilka"], cycle(kljuc)))
+            odsifrirano = self.xor_kartica(objekt, kljuc)
             objekt["stevilka"] = odsifrirano
             objekt["cvv"] -= ord(kljuc[0])
         self.shramba = Shramba.iz_slovarja(slovar)
