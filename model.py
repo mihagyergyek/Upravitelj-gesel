@@ -154,12 +154,6 @@ class Uporabnik:
         self.geslo = geslo
         self.shramba = shramba
 
-    def novo_geslo(self, vnos):
-        self.geslo = vnos
-
-    def pravilno_geslo(self, vnos):
-        return self.geslo == vnos
-
     def v_slovar(self):
         return {
             "uporabnisko_ime": self.uporabnisko_ime,
