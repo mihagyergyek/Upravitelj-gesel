@@ -92,7 +92,7 @@ def upravljanje_gesel():
 def dodaj_geslo():
     uporabnik = trenutni_uporabnik()
     shramba = uporabnik.shramba
-    if bottle.request.forms.getunicode("ime") == any(geslo.ime for geslo in shramba.gesla):
+    if bottle.request.forms.getunicode("ime") in [geslo.ime for geslo in shramba.gesla]:
         ime = None
     else:
         ime = bottle.request.forms.getunicode("ime")
@@ -153,10 +153,7 @@ def dodaj_kartico():
         stevilka = bottle.request.forms.getunicode("stevilka")
     else:
         stevilka = None
-    if not(len(bottle.request.forms.getunicode("cvv")) == 3):
-        cvv = None
-    else:
-        cvv = int(bottle.request.forms.getunicode("cvv"))
+    cvv = int(bottle.request.forms.getunicode("cvv"))
     try:
         datum = date.fromisoformat(bottle.request.forms["datum"] + "-01")
     except:
