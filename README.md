@@ -7,10 +7,10 @@ Nato odpremo Notepad ali podoben program in ustvarimo datoteko skrivnost.txt, ki
 
 Skrivnosti ne delite z nikomer!
 
-V VSCode ali drugem urejevalniku poženemo datoteko spletni_vmesnik.py. Sledimo hiperpovezavi http://127.0.0.1:8080/ in pridemo v aplikacijo.
+V urejevalniku ali terminalu (ukaz `python spletni_vmesnik.py`) poženemo datoteko spletni_vmesnik.py. Sledimo hiperpovezavi http://127.0.0.1:8080/ in pridemo v aplikacijo.
 
 # Naslednji zagoni
-V urejevalniku poženemo datoteko spletni_vmesnik.py in sledimo hiperpovezavi.
+V urejevalniku ali terminalu poženemo datoteko spletni_vmesnik.py in sledimo hiperpovezavi.
 
 # Uporaba aplikacije
 Za nov račun kliknemo na gumb "Registracija" in ustvarimo račun. Tam je tudi hiter pregled funkcij Upravitelja. Uporabniki, ki račun že imajo, se prijavijo na prvi strani.
