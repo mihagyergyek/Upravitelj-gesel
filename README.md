@@ -22,10 +22,12 @@ V računu imamo na voljo naslednje strani:
 - Račun
 
 Na strani "Gesla" imamo shrambo gesel, kjer le-ta dodajamo, spreminjamo in brišemo. Podobno na strani "Kartice" dodajamo in brišemo shranjene bančne kartice.
+Gesla in kartice so na strežniku zašifrirana.
 
 Generator gesel nam pomaga ustvarjati varna gesla. Izberemo željeno dolžino in vključene znake ter pritisnemo "Generiraj".
 
 "Varnost" je stran, ki analizira varnost naše shrambe. Opozori nas na podvojena, šibka in stara gesla ter na bančne kartice, ki bodo kmalu potekle.
+Kot šibka gesla štejejo tudi najpogostejša gesla, ki sicer ustrezajo ostalim pogojem. To lahko preizkusiš npr. z geslom "Mailcreated5240".
 
 "Račun" je namenjen spreminjanju gesla za celoten račun ali brisanju računa.
 
