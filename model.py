@@ -65,9 +65,19 @@ class Kartica:
         return self.datum - date.today() < timedelta(90)
 
 @dataclass
+class Belezka:
+    naslov : str
+    vsebina : str
+
+    def __init__(self, naslov, vsebina):
+        self.naslov = naslov
+        self.vsebina = vsebina
+
+@dataclass
 class Shramba:
     gesla : List[Geslo]
     kartice : List[Kartica]
+    belezke : List[Belezka]
 
     def dodaj_geslo(self, ime, uporabnisko_ime, geslo, datum=date.today(), kategorija="Ostalo", url=None):
         novo_geslo = Geslo(ime, uporabnisko_ime, geslo, datum, kategorija, url)
@@ -76,6 +86,10 @@ class Shramba:
     def dodaj_kartico(self, lastnik, stevilka, cvv, datum, ime):
         nova_kartica = Kartica(lastnik, stevilka, cvv, datum, ime)
         self.kartice.append(nova_kartica)
+
+    def dodaj_belezko(self, naslov, vsebina):
+        nova_belezka = Belezka(naslov, vsebina)
+        self.belezke.append(nova_belezka)
 
     def kategorije(self):
         seznam = set()
@@ -103,6 +117,12 @@ class Shramba:
                     "ime": kartica.ime
                     }
                 for kartica in self.kartice
+            ],
+            "belezke": [
+                    {"naslov": belezka.naslov,
+                    "vsebina": belezka.vsebina
+                    }
+                for belezka in self.belezke
             ]
         }
 
@@ -122,9 +142,16 @@ class Shramba:
                 )
             for k in slovar["kartice"]
         ]
+        belezke = [
+            Belezka(
+                b["naslov"], b["vsebina"]
+                )
+            for b in slovar["belezke"]
+        ]
         return cls(
             gesla = gesla,
-            kartice = kartice
+            kartice = kartice,
+            belezke = belezke
         )
 
     def enaka_gesla(self):
@@ -201,12 +228,20 @@ class Uporabnik:
         return ''.join(chr(ord(str(crka)) ^ ord(str(znak))) 
             for crka, znak in zip(objekt["stevilka"], cycle(kljuc)))
 
+    @staticmethod
+    def xor_belezka(objekt, kljuc):
+        return ''.join(chr(ord(str(crka)) ^ ord(str(znak))) 
+            for crka, znak in zip(objekt["vsebina"], cycle(kljuc)))
+
     def zasifriraj_shrambo(self):
         slovar = self.shramba.v_slovar()
         kljuc = self.geslo
         for objekt in slovar["gesla"]:
             sifrirano = self.xor_geslo(objekt, kljuc)
             objekt["geslo"] = sifrirano
+        for objekt in slovar["belezke"]:
+            sifrirano = self.xor_belezka(objekt, kljuc)
+            objekt["vsebina"] = sifrirano
         for objekt in slovar["kartice"]:
             sifrirano = self.xor_kartica(objekt, kljuc)
             objekt["stevilka"] = sifrirano
@@ -220,6 +255,9 @@ class Uporabnik:
         for objekt in slovar["gesla"]:
             odsifrirano = self.xor_geslo(objekt, kljuc)
             objekt["geslo"] = odsifrirano
+        for objekt in slovar["belezke"]:
+            odsifrirano = self.xor_belezka(objekt, kljuc)
+            objekt["vsebina"] = odsifrirano
         for objekt in slovar["kartice"]:
             odsifrirano = self.xor_kartica(objekt, kljuc)
             objekt["stevilka"] = odsifrirano

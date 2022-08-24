@@ -41,7 +41,7 @@ def registracija_post():
         return bottle.template("registracija.html", 
             uporabnik=None, napaka="Manjkajoči podatki.")
     else:
-        uporabnik = model.Uporabnik(uporabnisko_ime, geslo, model.Shramba([], []))
+        uporabnik = model.Uporabnik(uporabnisko_ime, geslo, model.Shramba([], [], []))
         shrani_trenutnega_uporabnika(uporabnik)
         bottle.response.set_cookie("uporabnisko_ime", uporabnisko_ime, path="/", secret=SKRIVNOST)
         bottle.response.set_cookie("geslo", geslo, path="/", secret=SKRIVNOST)
@@ -178,6 +178,41 @@ def odstrani_kartico():
             shramba.kartice.remove(objekt)
             shrani_trenutnega_uporabnika(uporabnik)
             bottle.redirect("/kartice/")
+
+@bottle.get("/belezka/")
+def belezka():
+    uporabnik = trenutni_uporabnik()
+    belezke = uporabnik.shramba.belezke
+    return bottle.template("belezka.html", uporabnik=uporabnik, belezke=belezke, napaka=None)
+
+@bottle.post("/dodaj-belezko/")
+def dodaj_belezko():
+    uporabnik = trenutni_uporabnik()
+    shramba = uporabnik.shramba
+    if bottle.request.forms.getunicode("naslov") in [belezka.naslov for belezka in shramba.belezke]:
+        naslov = None
+    else:
+        naslov = bottle.request.forms.getunicode("naslov")
+    vsebina = bottle.request.forms.getunicode("vsebina")
+    if not naslov:
+        belezke = trenutni_uporabnik().shramba.belezke
+        return bottle.template("belezka.html", uporabnik=trenutni_uporabnik(),
+            belezke=belezke, napaka="Naslov že obstaja")
+    else:
+        shramba.dodaj_belezko(naslov, vsebina)
+        shrani_trenutnega_uporabnika(uporabnik)
+        bottle.redirect("/belezka/")
+
+@bottle.post("/odstrani-belezko/")
+def odstrani_belezko():
+    uporabnik = trenutni_uporabnik()
+    shramba = uporabnik.shramba
+    belezka = bottle.request.forms.getunicode("belezka")
+    for objekt in shramba.belezke:
+        if belezka == objekt.naslov:
+            shramba.belezke.remove(objekt)
+            shrani_trenutnega_uporabnika(uporabnik)
+            bottle.redirect("/belezka/")
 
 @bottle.get("/generator/")
 def generator():

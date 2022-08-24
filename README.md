@@ -1,5 +1,5 @@
 # Upravitelj gesel
-Upravitelj gesel je aplikacija, namenjena shranjevanju gesel za spletne strani in bančnih kartic na enem mestu.
+Upravitelj gesel je aplikacija, namenjena shranjevanju gesel za spletne strani, bančnih kartic in občutljivih sporočil na enem mestu.
 
 # Prvi zagon
 Za zagon je potrebno imeti naložen Python. Na računalnik naložimo Upravitelj-gesel.zip in ga razpakiramo v svojo mapo.
@@ -17,12 +17,13 @@ Za nov račun kliknemo na gumb "Registracija" in ustvarimo račun. Tam je tudi h
 V računu imamo na voljo naslednje strani:
 - Gesla
 - Kartice
+- Beležka
 - Generator gesel
 - Varnost
 - Račun
 
-Na strani "Gesla" imamo shrambo gesel, kjer le-ta dodajamo, spreminjamo in brišemo. Podobno na strani "Kartice" dodajamo in brišemo shranjene bančne kartice.
-Gesla in kartice so na strežniku zašifrirana.
+Na strani "Gesla" imamo shrambo gesel, kjer le-ta dodajamo, spreminjamo in brišemo. Podobno na straneh "Kartice" in "Beležka" dodajamo in brišemo shranjene bančne kartice in sporočila.
+Gesla, kartice in beležka so na strežniku zašifrirana.
 
 Generator gesel nam pomaga ustvarjati varna gesla. Izberemo željeno dolžino in vključene znake ter pritisnemo "Generiraj".
 
@@ -33,5 +34,8 @@ Kot šibka gesla štejejo tudi najpogostejša gesla, ki sicer ustrezajo ostalim 
 
 # Demo račun
 Demo račun je namenjen tistim, ki želijo aplikacijo le preizkusiti.
-V ta namen se lahko vpišemo z uporabniškim imenom "elon" in geslom "Bezos5". Ta račun ima vnešenih nekaj gesel in kartic, s katerimi lahko preizkusimo delovanje Upravitelja.
-Če želimo prazen demo račun, se vpišemo z uporabniškim imenom "bezos" in geslom "Musk5". Ta račun je prazen in mu lahko dodajamo gesla in kartice.
+V ta namen se lahko vpišemo z uporabniškim imenom "elon" in geslom "Bezos5". Ta račun ima vnešenih nekaj gesel, kartic in sporočil, s katerimi lahko preizkusimo delovanje Upravitelja.
+Če želimo prazen demo račun, se vpišemo z uporabniškim imenom "bezos" in geslom "Musk5". Ta račun je prazen in mu lahko dodajamo gesla, kartice in sporočila.
+
+# Viri
+Ikone so bile pridobljene na Font Awesome: https://fontawesome.com/

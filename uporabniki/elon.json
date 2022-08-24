@@ -50,6 +50,12 @@
                 "datum": "2022-08-01",
                 "ime": "Stara Visa"
             }
+        ],
+        "belezke": [
+            {
+                "naslov": "Sporočilo",
+                "vsebina": "\u0016\nZ\u0005\u0016\u00151\u000e\b\u0006\u0005[-E\t\u001f\u001cG-Ũ\u0013\u0003\u001c"
+            }
         ]
     }
 }
