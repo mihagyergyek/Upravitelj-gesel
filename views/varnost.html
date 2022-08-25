@@ -6,100 +6,100 @@
     %if shramba.enaka_gesla() != []:
     <h1>Ponovljena gesla</h1>
     <p>Naslednja gesla si uporabil/a večkrat. Dobro bi jih bilo zamenjati.</p>
-        %for geslo in shramba.enaka_gesla():
-            <table class="table table-striped table-dark">
-                <h2>{{geslo}}</h2>
-                <thead>
-                  <tr>
-                    <th scope="col">Ime</th>
-                    <th scope="col">Uporabniško ime</th>
-                    <th scope="col">Geslo</th>
-                    <th scope="col">URL</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    %for objekt in shramba.gesla:
-                      %if objekt.geslo == geslo:
-                        <tr>
-                          <th scope="row">{{objekt.ime}}</th>
-                          <td>{{objekt.uporabnisko_ime}}</td>
-                          <td>{{objekt.geslo}}</td>
-                          <td>{{objekt.url}}</td>
-                        </tr>
-                      %end
-                    %end
-                </tbody>
-            </table>
-        %end
+      %for geslo in shramba.enaka_gesla():
+        <table class="table table-striped table-dark">
+            <h2>{{geslo}}</h2>
+            <thead>
+              <tr>
+                <th scope="col">Ime</th>
+                <th scope="col">Uporabniško ime</th>
+                <th scope="col">Geslo</th>
+                <th scope="col">URL</th>
+              </tr>
+            </thead>
+            <tbody>
+                %for objekt in shramba.gesla:
+                  %if objekt.geslo == geslo:
+                    <tr>
+                      <th scope="row">{{objekt.ime}}</th>
+                      <td>{{objekt.uporabnisko_ime}}</td>
+                      <td>{{objekt.geslo}}</td>
+                      <td>{{objekt.url}}</td>
+                    </tr>
+                  %end
+                %end
+            </tbody>
+        </table>
+      %end
     %end
     %if shramba.prestara_gesla() != []:
     <h1>Stara gesla</h1>
     <p>Naslednjih gesel že dolgo nisi zamejal/a. To bi bilo dobro storiti.</p>
-        <table class="table table-striped table-dark">
-            <thead>
-              <tr>
-                <th scope="col">Ime</th>
-                <th scope="col">Uporabniško ime</th>
-                <th scope="col">Geslo</th>
-                <th scope="col">URL</th>
-              </tr>
-            </thead>
-            <tbody>
-                %for objekt in shramba.prestara_gesla():
-                    <tr>
-                      <th scope="row">{{objekt.ime}}</th>
-                      <td>{{objekt.uporabnisko_ime}}</td>
-                      <td>{{objekt.geslo}}</td>
-                      <td>{{objekt.url}}</td>
-                    </tr>
-                %end
-            </tbody>
-        </table>
+      <table class="table table-striped table-dark">
+        <thead>
+          <tr>
+            <th scope="col">Ime</th>
+            <th scope="col">Uporabniško ime</th>
+            <th scope="col">Geslo</th>
+            <th scope="col">URL</th>
+          </tr>
+        </thead>
+        <tbody>
+            %for objekt in shramba.prestara_gesla():
+                <tr>
+                  <th scope="row">{{objekt.ime}}</th>
+                  <td>{{objekt.uporabnisko_ime}}</td>
+                  <td>{{objekt.geslo}}</td>
+                  <td>{{objekt.url}}</td>
+                </tr>
+            %end
+        </tbody>
+      </table>
     %end
     %if shramba.nevarna_gesla() != []:
     <h1>Nevarna gesla</h1>
     <p>Naslednja gesla so šibka in jih je potrebno zamenjati.</p>
-        <table class="table table-striped table-dark">
-            <thead>
-              <tr>
-                <th scope="col">Ime</th>
-                <th scope="col">Uporabniško ime</th>
-                <th scope="col">Geslo</th>
-                <th scope="col">URL</th>
-              </tr>
-            </thead>
-            <tbody>
-                %for objekt in shramba.nevarna_gesla():
-                    <tr>
-                      <th scope="row">{{objekt.ime}}</th>
-                      <td>{{objekt.uporabnisko_ime}}</td>
-                      <td>{{objekt.geslo}}</td>
-                      <td>{{objekt.url}}</td>
-                    </tr>
-                %end
-            </tbody>
-        </table>
+      <table class="table table-striped table-dark">
+        <thead>
+          <tr>
+            <th scope="col">Ime</th>
+            <th scope="col">Uporabniško ime</th>
+            <th scope="col">Geslo</th>
+            <th scope="col">URL</th>
+          </tr>
+        </thead>
+        <tbody>
+            %for objekt in shramba.nevarna_gesla():
+                <tr>
+                  <th scope="row">{{objekt.ime}}</th>
+                  <td>{{objekt.uporabnisko_ime}}</td>
+                  <td>{{objekt.geslo}}</td>
+                  <td>{{objekt.url}}</td>
+                </tr>
+            %end
+        </tbody>
+      </table>
     %end
     %if shramba.kartice_blizu_poteka() != []:
     <h1>Kartice blizu poteka</h1>
     <p>Naslednje kartice bodo kmalu potekle.</p>
-        <table class="table table-striped table-dark">
-            <thead>
+      <table class="table table-striped table-dark">
+        <thead>
+          <tr>
+            <th scope="col">Ime</th>
+            <th scope="col">Številka</th>
+            <th scope="col">Datum</th>
+          </tr>
+        </thead>
+        <tbody>
+            %for objekt in shramba.kartice_blizu_poteka():
               <tr>
-                <th scope="col">Ime</th>
-                <th scope="col">Številka</th>
-                <th scope="col">Datum</th>
+                <th scope="row">{{objekt.ime}}</th>
+                <td>{{objekt.stevilka}}</td>
+                <td>{{objekt.datum.isoformat()[:7]}}</td>
               </tr>
-            </thead>
-            <tbody>
-                %for objekt in shramba.kartice_blizu_poteka():
-                    <tr>
-                      <th scope="row">{{objekt.ime}}</th>
-                      <td>{{objekt.stevilka}}</td>
-                      <td>{{objekt.datum.isoformat()[:7]}}</td>
-                    </tr>
-                %end
-            </tbody>
-        </table>
+            %end
+        </tbody>
+      </table>
     %end
 </div>

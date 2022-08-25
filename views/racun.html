@@ -15,12 +15,12 @@
         </form>
         <h1>Izbris računa</h1>
         <form action="/izbrisi-racun/" method="POST">
-            <div class="mb-3">
-                <label for="geslo" class="form-label">Geslo</label>
-                <input type="text" class="form-control" id="geslo" name="geslo">
-            </div>
-            <input type="hidden" name="ime-racuna" value="{{uporabnik.uporabnisko_ime}}">
-            <button type="submit" class="btn btn-danger mb-3" value="izbrisi_racun">Izbriši račun</button>
+          <div class="mb-3">
+            <label for="geslo" class="form-label">Geslo</label>
+            <input type="text" class="form-control" id="geslo" name="geslo">
+          </div>
+          <input type="hidden" name="ime-racuna" value="{{uporabnik.uporabnisko_ime}}">
+          <button type="submit" class="btn btn-danger mb-3" value="izbrisi_racun">Izbriši račun</button>
         </form>
     %if napaka:
       <p class="alert alert-danger mb-3">{{ napaka }}</p>
