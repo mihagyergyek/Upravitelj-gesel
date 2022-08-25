@@ -16,7 +16,13 @@
                 <tr>
                   <td>
                     <h2>{{belezka.naslov}}</h2>
-                    <p>{{belezka.vsebina}}</p>
+                    <form action="/shrani-belezko/" method="POST">
+                      <div class="mb-2">
+                        <textarea class="form-control mb-3" id="nova-vsebina" name="edit" rows="3" maxlength="200" required>{{belezka.vsebina}}</textarea>
+                        <input type="hidden" name="naslov-spremembe" value="{{belezka.naslov}}">
+                        <button type="submit" class="btn btn-secondary" value="shrani_belezko">Shrani</button>
+                      </div>
+                    </form>
                   </td>
                   <td class="align-middle">
                     <form action="/odstrani-belezko/" method="POST">
@@ -35,19 +41,19 @@
       <div class="col-4">
         <h1>Dodaj sporočilo</h1>
         <form action="/dodaj-belezko/" method="POST">
-            <div class="mb-3">
-                <label for="naslov" class="form-label">Naslov</label>
-                <input type="text" class="form-control" id="naslov" name="naslov" required>
-            </div>
-            <div class="mb-3">
-              <label for="vsebina" class="form-label">Vsebina</label>
-              <textarea class="form-control" id="vsebina" name="vsebina" rows="3" maxlength="200" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary mb-3" value="dodaj_belezko">Dodaj</button>
-          </form>
-          %if napaka:
-            <p class="alert alert-danger">{{ napaka }}</p>
-          %end
+          <div class="mb-3">
+            <label for="naslov" class="form-label">Naslov</label>
+            <input type="text" class="form-control" id="naslov" name="naslov" required>
+          </div>
+          <div class="mb-3">
+            <label for="vsebina" class="form-label">Vsebina</label>
+            <textarea class="form-control" id="vsebina" name="vsebina" rows="3" maxlength="200" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary mb-3" value="dodaj_belezko">Dodaj</button>
+        </form>
+        %if napaka:
+          <p class="alert alert-danger">{{ napaka }}</p>
+        %end
       </div>
     </div>
 </div> 

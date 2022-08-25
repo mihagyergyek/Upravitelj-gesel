@@ -214,6 +214,18 @@ def odstrani_belezko():
             shrani_trenutnega_uporabnika(uporabnik)
             bottle.redirect("/belezka/")
 
+@bottle.post("/shrani-belezko/")
+def shrani_belezko():
+    uporabnik = trenutni_uporabnik()
+    shramba = uporabnik.shramba
+    spremenjeno_sporocilo = bottle.request.forms.getunicode("edit")
+    naslov = bottle.request.forms.getunicode("naslov-spremembe")
+    for objekt in shramba.belezke:
+        if naslov == objekt.naslov:
+            objekt.vsebina = spremenjeno_sporocilo
+            shrani_trenutnega_uporabnika(uporabnik)
+            bottle.redirect("/belezka/")
+
 @bottle.get("/generator/")
 def generator():
     uporabnik = trenutni_uporabnik()
