@@ -219,31 +219,21 @@ class Uporabnik:
         return self
 
     @staticmethod
-    def xor_geslo(objekt, kljuc):
+    def xor_sifra(vnos, kljuc):
         return ''.join(chr(ord(str(crka)) ^ ord(str(znak)))
-            for crka, znak in zip(objekt["geslo"], cycle(kljuc)))
-
-    @staticmethod
-    def xor_kartica(objekt, kljuc):
-        return ''.join(chr(ord(str(crka)) ^ ord(str(znak))) 
-            for crka, znak in zip(objekt["stevilka"], cycle(kljuc)))
-
-    @staticmethod
-    def xor_belezka(objekt, kljuc):
-        return ''.join(chr(ord(str(crka)) ^ ord(str(znak))) 
-            for crka, znak in zip(objekt["vsebina"], cycle(kljuc)))
+            for crka, znak in zip(vnos, cycle(kljuc)))
 
     def zasifriraj_shrambo(self):
         slovar = self.shramba.v_slovar()
         kljuc = self.geslo
         for objekt in slovar["gesla"]:
-            sifrirano = self.xor_geslo(objekt, kljuc)
+            sifrirano = self.xor_sifra(objekt["geslo"], kljuc)
             objekt["geslo"] = sifrirano
         for objekt in slovar["belezke"]:
-            sifrirano = self.xor_belezka(objekt, kljuc)
+            sifrirano = self.xor_sifra(objekt["vsebina"], kljuc)
             objekt["vsebina"] = sifrirano
         for objekt in slovar["kartice"]:
-            sifrirano = self.xor_kartica(objekt, kljuc)
+            sifrirano = self.xor_sifra(objekt["stevilka"], kljuc)
             objekt["stevilka"] = sifrirano
             objekt["cvv"] += ord(kljuc[0])
         self.shramba = Shramba.iz_slovarja(slovar)
@@ -253,13 +243,13 @@ class Uporabnik:
         slovar = self.shramba.v_slovar()
         kljuc = vnos
         for objekt in slovar["gesla"]:
-            odsifrirano = self.xor_geslo(objekt, kljuc)
+            odsifrirano = self.xor_sifra(objekt["geslo"], kljuc)
             objekt["geslo"] = odsifrirano
         for objekt in slovar["belezke"]:
-            odsifrirano = self.xor_belezka(objekt, kljuc)
+            odsifrirano = self.xor_sifra(objekt["vsebina"], kljuc)
             objekt["vsebina"] = odsifrirano
         for objekt in slovar["kartice"]:
-            odsifrirano = self.xor_kartica(objekt, kljuc)
+            odsifrirano = self.xor_sifra(objekt["stevilka"], kljuc)
             objekt["stevilka"] = odsifrirano
             objekt["cvv"] -= ord(kljuc[0])
         self.shramba = Shramba.iz_slovarja(slovar)
